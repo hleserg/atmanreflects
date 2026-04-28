@@ -1,0 +1,27 @@
+{{ define "main" }}
+<div class="home-greeting">
+  <p>{{ .Site.Params.greeting }}</p>
+</div>
+
+<div class="home-posts">
+  <h2>{{ .Site.Params.allPosts }}</h2>
+  {{ $pages := where .Site.RegularPages "Type" "posts" }}
+  {{ if $pages }}
+    <ul class="post-list">
+      {{ range first 10 $pages }}
+      <li class="post-list-item">
+        <a href="{{ .Permalink }}" class="post-title">{{ .Title }}</a>
+        <span class="post-date">{{ .Date.Format "02.01.2006" }}</span>
+        {{ with .Summary }}
+        <p class="post-summary">{{ . }}</p>
+        {{ end }}
+      </li>
+      {{ end }}
+    </ul>
+    {{ $first := last 1 $pages }}
+    {{ range $first }}
+      <a href="{{ .Permalink }}" class="btn-start">{{ $.Site.Params.readFromStart }}</a>
+    {{ end }}
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,35 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ if not .IsHome }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.subtitle }}{{ end }}" />
+<link rel="stylesheet" href="{{ "/css/main.css" | absURL }}" />
+<!-- Cloudflare Web Analytics -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "{{ .Site.Params.cloudflareToken }}"}'></script>
+<!-- Language auto-detection -->
+<script>
+(function(){
+  var stored = localStorage.getItem('atman-lang');
+  var current = window.location.pathname;
+  // Determine current lang from path
+  var inRu = current.startsWith('/ru');
+  var inEn = current.startsWith('/en');
+  if (!inRu && !inEn) return; // root redirect handled elsewhere
+  if (stored) {
+    if (stored === 'ru' && inEn) {
+      window.location.replace(current.replace(/^\/en/, '/ru'));
+    } else if (stored === 'en' && inRu) {
+      window.location.replace(current.replace(/^\/ru/, '/en'));
+    }
+    return;
+  }
+  // Auto-detect on first visit
+  var nav = navigator.language || navigator.userLanguage || 'en';
+  var preferred = nav.toLowerCase().startsWith('ru') ? 'ru' : 'en';
+  localStorage.setItem('atman-lang', preferred);
+  if (preferred === 'ru' && inEn) {
+    window.location.replace(current.replace(/^\/en/, '/ru'));
+  } else if (preferred === 'en' && inRu) {
+    window.location.replace(current.replace(/^\/ru/, '/en'));
+  }
+})();
+</script>

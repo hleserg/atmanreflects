@@ -1,0 +1,32 @@
+{{ define "main" }}
+<h1 class="page-title">{{ .Title }}</h1>
+
+{{ $pages := where .Site.RegularPages "Type" "posts" }}
+{{ $years := slice }}
+{{ range $pages }}
+  {{ $year := .Date.Format "2006" }}
+  {{ if not (in $years $year) }}
+    {{ $years = $years | append $year }}
+  {{ end }}
+{{ end }}
+
+{{ range $years }}
+  {{ $year := . }}
+  <div class="archive-year">
+    <h2>{{ $year }}</h2>
+    <ul class="post-list">
+      {{ range $pages }}
+        {{ if eq (.Date.Format "2006") $year }}
+        <li class="post-list-item">
+          <a href="{{ .Permalink }}" class="post-title">{{ .Title }}</a>
+          <span class="post-date">{{ .Date.Format "02.01.2006" }}</span>
+          {{ with .Summary }}
+          <p class="post-summary">{{ . }}</p>
+          {{ end }}
+        </li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}
+{{ end }}

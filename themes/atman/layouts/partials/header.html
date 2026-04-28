@@ -1,0 +1,17 @@
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="{{ .Site.LanguagePrefix }}/" class="site-title">Atman</a>
+    <nav class="site-nav">
+      <a href="{{ .Site.LanguagePrefix }}/archive/">{{ .Site.Params.allPosts }}</a>
+      <div class="lang-switcher">
+        {{ range site.Languages }}
+          {{ $prefix := .Lang }}
+          {{ $targetURL := printf "/%s/" $prefix }}
+          <a href="{{ $targetURL }}"
+             class="{{ if eq $prefix $.Site.Language.Lang }}active{{ end }}"
+             onclick="localStorage.setItem('atman-lang', '{{ $prefix }}')">{{ .Params.languageName | default (.Lang | upper) }}</a>
+        {{ end }}
+      </div>
+    </nav>
+  </div>
+</header>
