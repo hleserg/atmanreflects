@@ -53,3 +53,4 @@ Welcome."""
 
 [pagination]
   pagerSize = 10
+publishDir = "docs"
