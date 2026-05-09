@@ -55,7 +55,3 @@ Welcome."""
   pagerSize = 10
 publishDir = "docs"
 
-# Keep CNAME during build
-[[module.mounts]]
-  source = "docs-static"
-  target = "static"
